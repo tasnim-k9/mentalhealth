@@ -1,35 +1,13 @@
 // File: client/src/pages/Journal.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Journal = () => {
-  const [entries, setEntries] = useState([
-    {
-      id: 1,
-      date: '2023-11-10',
-      mood: 'happy',
-      title: 'Great day today',
-      content: 'Had a productive day at work and enjoyed a nice walk in the park. Felt grateful for the beautiful weather and my supportive friends.',
-      tags: ['gratitude', 'productivity']
-    },
-    {
-      id: 2,
-      id: 2,
-      date: '2023-11-09',
-      mood: 'neutral',
-      title: 'Regular day',
-      content: 'Nothing special happened today. Just a regular work day. Feeling a bit tired but overall okay.',
-      tags: ['routine']
-    },
-    {
-      id: 3,
-      date: '2023-11-08',
-      mood: 'sad',
-      title: 'Feeling down',
-      content: 'Struggled with motivation today. Missed my morning routine and felt off all day. Need to practice more self-care tomorrow.',
-      tags: ['self-care', 'motivation']
-    }
-  ]);
+  const { token } = useAuth();
+  const [entries, setEntries] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const [newEntry, setNewEntry] = useState({
     date: new Date().toISOString().split('T')[0],
@@ -51,14 +29,10 @@ const Journal = () => {
     { value: 'excited', label: '🤩 Excited', color: 'bg-pink-100 text-pink-800' }
   ];
 
-  const moodData = [
-    { date: '2023-11-05', mood: 4 },
-    { date: '2023-11-06', mood: 3 },
-    { date: '2023-11-07', mood: 2 },
-    { date: '2023-11-08', mood: 2 },
-    { date: '2023-11-09', mood: 3 },
-    { date: '2023-11-10', mood: 4 }
-  ];
+  const moodData = entries.slice(0, 10).map(e => ({
+    date: new Date(e.date).toISOString().split('T')[0],
+    mood: moodValue[e.mood] || 3
+  })).reverse();
 
   const moodValue = {
     happy: 4,
@@ -87,13 +61,37 @@ const Journal = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const entry = {
-      id: entries.length + 1,
-      ...newEntry
-    };
-    setEntries([entry, ...entries]);
+    if (!token) {
+      // Local fallback
+      const entry = { id: Date.now().toString(), ...newEntry };
+      setEntries([entry, ...entries]);
+    } else {
+      try {
+        setError('');
+        setLoading(true);
+        const apiBase = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+        const res = await fetch(`${apiBase}/api/journals`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(newEntry)
+        });
+        const data = await res.json();
+        if (!res.ok || !data?.success) {
+          throw new Error(data?.message || 'Failed to save entry');
+        }
+        const saved = data.journal;
+        setEntries([{ id: saved._id, ...saved }, ...entries]);
+      } catch (err) {
+        setError(err.message || 'Failed to save entry');
+      } finally {
+        setLoading(false);
+      }
+    }
     setNewEntry({
       date: new Date().toISOString().split('T')[0],
       mood: 'neutral',
@@ -102,6 +100,31 @@ const Journal = () => {
       tags: []
     });
   };
+
+  useEffect(() => {
+    const fetchEntries = async () => {
+      if (!token) return; // Skip if not logged in with backend
+      try {
+        setLoading(true);
+        setError('');
+        const apiBase = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+        const res = await fetch(`${apiBase}/api/journals?limit=20`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (!res.ok || !data?.success) {
+          throw new Error(data?.message || 'Failed to load entries');
+        }
+        const normalized = data.journals.map(j => ({ id: j._id, ...j }));
+        setEntries(normalized);
+      } catch (err) {
+        setError(err.message || 'Failed to load entries');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEntries();
+  }, [token]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

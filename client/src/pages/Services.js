@@ -42,10 +42,10 @@ const Services = () => {
       link: '/forum'
     },
     {
-      name: 'Therapist Appointments',
-      description: 'Schedule sessions with licensed therapists at your convenience.',
+      name: 'Guided Programs',
+      description: 'Structured self-guided programs with reminders and progress tracking.',
       icon: CalendarIcon,
-      link: '/profile?tab=appointments'
+      link: '/mindfulness'
     },
     {
       name: 'Mood Tracking',

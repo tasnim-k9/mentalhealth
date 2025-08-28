@@ -9,6 +9,8 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -17,21 +19,31 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real application, this would send the data to your backend
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    // Reset form after submission
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
-    
-    // Reset submission status after 3 seconds
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setIsLoading(true);
+    setErrorMessage('');
+    try {
+      const apiBase = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+      const res = await fetch(`${apiBase}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.message || 'Failed to send message');
+      }
+
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setIsSubmitted(false), 3000);
+    } catch (err) {
+      setErrorMessage(err.message || 'Something went wrong');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -117,6 +129,23 @@ const Contact = () => {
             </div>
           ) : null}
 
+          {errorMessage ? (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6 transition-colors duration-300">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-red-800 dark:text-red-200 transition-colors duration-300">
+                    {errorMessage}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : null}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">
@@ -186,8 +215,9 @@ const Contact = () => {
               <button
                 type="submit"
                 className="w-full bg-lavender-600 hover:bg-lavender-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+              disabled={isLoading}
               >
-                Send Message
+                {isLoading ? 'Sending...' : 'Send Message'}
               </button>
             </div>
           </form>

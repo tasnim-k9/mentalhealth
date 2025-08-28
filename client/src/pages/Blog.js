@@ -42,13 +42,13 @@ const Blog = () => {
       },
       {
         id: 4,
-        title: 'Breaking the Stigma Around Therapy',
-        excerpt: 'Why seeking help is a sign of strength, not weakness.',
+        title: 'Building Your Personal Wellness Toolkit',
+        excerpt: 'Practical, self-guided ways to support your mental health daily.',
         content: 'Full content would go here...',
-        category: 'therapy',
-        author: 'Dr. Sarah Johnson',
+        category: 'wellness',
+        author: 'Team MindfulSpace',
         date: '2023-09-28',
-        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+        image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
       }
     ];
 
@@ -56,7 +56,7 @@ const Blog = () => {
     setFilteredPosts(mockPosts);
   }, []);
 
-  const categories = ['all', 'mental health', 'mindfulness', 'wellness', 'therapy'];
+  const categories = ['all', 'mental health', 'mindfulness', 'wellness'];
 
   const filterPosts = (category) => {
     setSelectedCategory(category);

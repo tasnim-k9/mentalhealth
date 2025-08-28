@@ -47,22 +47,22 @@ const Resources = () => {
       ]
     },
     {
-      title: 'Therapy & Support',
+      title: 'Wellness & Learning',
       resources: [
         {
-          name: 'Psychology Today Therapist Directory',
-          description: 'Find licensed therapists in your area',
-          link: 'https://www.psychologytoday.com/us/therapists'
+          name: 'Headspace Library',
+          description: 'Meditations and mindfulness content',
+          link: 'https://www.headspace.com/mindfulness'
         },
         {
-          name: 'BetterHelp Online Therapy',
-          description: 'Online counseling and therapy services',
-          link: 'https://www.betterhelp.com'
+          name: 'UC Berkeley Greater Good',
+          description: 'Science-based insights for a meaningful life',
+          link: 'https://greatergood.berkeley.edu/'
         },
         {
-          name: '7 Cups of Tea',
-          description: 'Free emotional support and counseling',
-          link: 'https://www.7cups.com'
+          name: 'Mindfulness Exercises',
+          description: 'Free guided practices and worksheets',
+          link: 'https://mindfulnessexercises.com/'
         }
       ]
     }

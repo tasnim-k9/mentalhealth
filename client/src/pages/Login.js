@@ -36,21 +36,20 @@ const Login = () => {
     }
 
     try {
-      // Use ACTUAL form data for login
-      await login({
-        _id: Date.now().toString(), // Generate unique ID
-        username: formData.email.split('@')[0], // Use email prefix as username
-        email: formData.email,
-        firstName: formData.email.split('@')[0], // Use email prefix as first name
-        lastName: 'User', // Default last name
-        role: 'user',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
+      const apiBase = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+      const res = await fetch(`${apiBase}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, password: formData.password })
       });
-      
-      // Redirect to intended page
+      const data = await res.json();
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || 'Invalid credentials');
+      }
+      login(data.user, data.token);
       navigate(from, { replace: true });
     } catch (err) {
-      setError('Failed to log in. Please check your credentials and try again.');
+      setError(err.message || 'Failed to log in. Please try again.');
     } finally {
       setLoading(false);
     }
