@@ -38,6 +38,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/chatbot', require('./routes/chatbot'));
 app.use('/api/journals', require('./routes/journals'));
+app.use('/api/contact', require('./routes/contact'));
 // Add other routes here: blogs, forum, appointments, etc.
 
 // Health check endpoint

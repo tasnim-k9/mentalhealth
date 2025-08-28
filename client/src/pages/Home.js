@@ -32,8 +32,8 @@ const Home = () => {
       color: 'text-seafoam-500'
     },
     {
-      name: 'Appointment Booking',
-      description: 'Schedule sessions with licensed therapists at your convenience.',
+      name: 'Guided Programs',
+      description: 'Follow structured self-guided programs for common goals like stress relief.',
       icon: CalendarIcon,
       color: 'text-lavender-500'
     },
@@ -53,7 +53,7 @@ const Home = () => {
 
   const stats = [
     { label: 'Users Helped', value: '10,000+' },
-    { label: 'Therapists', value: '50+' },
+    { label: 'Guided Exercises', value: '150+' },
     { label: 'Resources', value: '200+' },
     { label: 'Community Members', value: '5,000+' }
   ];

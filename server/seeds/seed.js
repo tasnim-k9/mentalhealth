@@ -29,16 +29,7 @@ const seedData = async () => {
       isVerified: true
     });
 
-    const therapistUser = await User.create({
-      username: 'therapist',
-      email: 'therapist@mindfulspace.com',
-      password: 'therapist123',
-      firstName: 'Sarah',
-      lastName: 'Johnson',
-      role: 'therapist',
-      isVerified: true,
-      bio: 'Licensed clinical psychologist with 10 years of experience specializing in anxiety and depression.'
-    });
+    // Removed therapist seeding
 
     const regularUser1 = await User.create({
       username: 'johndoe',
@@ -97,7 +88,7 @@ const seedData = async () => {
         content: 'Full content about anxiety disorders...',
         excerpt: 'Learn about different types of anxiety disorders and how to recognize symptoms.',
         category: 'mental health',
-        authorId: therapistUser._id,
+        authorId: adminUser._id,
         image: 'https://images.unsplash.com/photo-1593811167562-9cef47bfc5d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
         tags: ['anxiety', 'mental health', 'education'],
         isPublished: true,
@@ -133,7 +124,7 @@ const seedData = async () => {
         tags: ['social anxiety', 'coping strategies'],
         replies: [
           {
-            userId: therapistUser._id,
+            userId: adminUser._id,
             content: 'Try practicing deep breathing exercises before social events. Also, remember that most people are focused on themselves, not judging you.',
             isAnonymous: false,
             likes: [regularUser1._id]

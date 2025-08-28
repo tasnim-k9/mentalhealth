@@ -2,26 +2,6 @@
 import React from 'react';
 
 const About = () => {
-  const team = [
-    {
-      name: 'Dr. Sarah Johnson',
-      role: 'Clinical Psychologist',
-      image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      bio: 'Specialized in cognitive behavioral therapy with over 15 years of experience.'
-    },
-    {
-      name: 'Michael Chen',
-      role: 'Licensed Therapist',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      bio: 'Focuses on mindfulness-based stress reduction and family therapy.'
-    },
-    {
-      name: 'Emma Rodriguez',
-      role: 'Mental Health Counselor',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      bio: 'Passionate about helping young adults navigate life transitions and anxiety.'
-    }
-  ];
 
   const values = [
     {
@@ -95,20 +75,27 @@ const About = () => {
         </div>
       </div>
 
-      {/* Team Section */}
+      {/* What Makes Us Different Section */}
       <div>
-        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12 transition-colors duration-300">Our Team</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12 transition-colors duration-300">What Makes Us Different</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {team.map((person) => (
-            <div key={person.name} className="text-center">
-              <img
-                className="mx-auto h-40 w-40 rounded-full object-cover mb-4"
-                src={person.image}
-                alt={person.name}
-              />
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1 transition-colors duration-300">{person.name}</h3>
-              <p className="text-lavender-600 dark:text-lavender-400 mb-3 transition-colors duration-300">{person.role}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-300 transition-colors duration-300">{person.bio}</p>
+          {[
+            {
+              title: 'Evidence-Based Design',
+              desc: 'Our tools are inspired by proven techniques in CBT, mindfulness, and positive psychology.'
+            },
+            {
+              title: 'Privacy First',
+              desc: 'Your data is protected with strong encryption and never shared without your consent.'
+            },
+            {
+              title: 'Community-Led',
+              desc: 'We co-create features with community feedback to keep the product truly helpful.'
+            }
+          ].map((item) => (
+            <div key={item.title} className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center transition-colors duration-300">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2 transition-colors duration-300">{item.title}</h3>
+              <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300">{item.desc}</p>
             </div>
           ))}
         </div>
