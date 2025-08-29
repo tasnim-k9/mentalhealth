@@ -32,12 +32,6 @@ const Home = () => {
       color: 'text-seafoam-500'
     },
     {
-      name: 'Appointment Booking',
-      description: 'Schedule sessions with licensed therapists at your convenience.',
-      icon: CalendarIcon,
-      color: 'text-lavender-500'
-    },
-    {
       name: 'Mood Tracking',
       description: 'Visualize your emotional patterns with our mood tracking dashboard.',
       icon: ChartBarIcon,
@@ -53,7 +47,7 @@ const Home = () => {
 
   const stats = [
     { label: 'Users Helped', value: '10,000+' },
-    { label: 'Therapists', value: '50+' },
+    { label: 'Mental Health Tools', value: '15+' },
     { label: 'Resources', value: '200+' },
     { label: 'Community Members', value: '5,000+' }
   ];

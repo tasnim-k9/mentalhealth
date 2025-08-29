@@ -40,20 +40,36 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      // Use ACTUAL form data for signup
-      await login({
-        _id: Date.now().toString(), // Generate unique ID
-        username: formData.username,
-        email: formData.email,
-        firstName: formData.firstName,
-        lastName: formData.lastName || '', // Use provided last name
-        role: 'user',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
+      // Make API call to backend
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001/api'}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName
+        })
       });
-      
-      navigate('/profile', { replace: true });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store the token
+        localStorage.setItem('token', data.token);
+        
+        // Use actual user data from backend
+        await login(data.user);
+        
+        navigate('/profile', { replace: true });
+      } else {
+        setError(data.message || 'Registration failed');
+      }
     } catch (err) {
-      setError('Failed to create account. Please try again.');
+      setError('Failed to connect to server. Please try again.');
     } finally {
       setLoading(false);
     }

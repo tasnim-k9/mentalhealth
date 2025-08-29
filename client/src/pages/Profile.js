@@ -17,33 +17,6 @@ const Profile = () => {
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
   });
 
-  // Mock data for appointments
-  const appointments = [
-    {
-      id: 1,
-      therapist: 'Dr. Sarah Johnson',
-      date: '2023-11-15',
-      time: '10:00 AM',
-      status: 'Upcoming',
-      type: 'Video Session'
-    },
-    {
-      id: 2,
-      therapist: 'Michael Chen',
-      date: '2023-11-08',
-      time: '2:30 PM',
-      status: 'Completed',
-      type: 'Phone Consultation'
-    },
-    {
-      id: 3,
-      therapist: 'Emma Rodriguez',
-      date: '2023-11-22',
-      time: '11:15 AM',
-      status: 'Upcoming',
-      type: 'In-Person'
-    }
-  ];
 
   // Mock data for journal entries
   const journalEntries = [
@@ -104,7 +77,7 @@ const Profile = () => {
         {/* Navigation Tabs */}
         <div className="border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <nav className="flex -mb-px">
-            {['profile', 'appointments', 'journal', 'settings'].map((tab) => (
+            {['profile', 'journal', 'settings'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -170,10 +143,10 @@ const Profile = () => {
                   </div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-gray-600 dark:text-gray-300 transition-colors duration-300">
-                      Therapy Sessions
+                      Days Active
                     </span>
                     <span className="text-lg font-semibold text-lavender-600 dark:text-lavender-400 transition-colors duration-300">
-                      {appointments.filter(a => a.status === 'Completed').length}
+                      23
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
@@ -189,47 +162,6 @@ const Profile = () => {
             </div>
           )}
 
-          {activeTab === 'appointments' && (
-            <div>
-              <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4 transition-colors duration-300">
-                Your Appointments
-              </h2>
-              <div className="space-y-4">
-                {appointments.map((appointment) => (
-                  <div key={appointment.id} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 transition-colors duration-300">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-medium text-gray-900 dark:text-white transition-colors duration-300">
-                          {appointment.therapist}
-                        </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-300 transition-colors duration-300">
-                          {appointment.type} • {appointment.date} at {appointment.time}
-                        </p>
-                      </div>
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        appointment.status === 'Upcoming' 
-                          ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
-                          : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-                      } transition-colors duration-300`}>
-                        {appointment.status}
-                      </span>
-                    </div>
-                    <div className="mt-3 flex space-x-2">
-                      <button className="text-xs bg-lavender-600 hover:bg-lavender-700 text-white px-3 py-1 rounded transition-colors duration-200">
-                        Reschedule
-                      </button>
-                      <button className="text-xs bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 px-3 py-1 rounded transition-colors duration-200">
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <button className="mt-6 bg-lavender-600 hover:bg-lavender-700 text-white px-4 py-2 rounded-md transition-colors duration-200">
-                Book New Appointment
-              </button>
-            </div>
-          )}
 
           {activeTab === 'journal' && (
             <div>
@@ -285,7 +217,7 @@ const Profile = () => {
                     </label>
                     <label className="flex items-center">
                       <input type="checkbox" className="rounded text-lavender-600 focus:ring-lavender-500" />
-                      <span className="ml-2 text-gray-700 dark:text-gray-300 transition-colors duration-300">Therapist updates</span>
+                      <span className="ml-2 text-gray-700 dark:text-gray-300 transition-colors duration-300">Community updates</span>
                     </label>
                   </div>
                 </div>

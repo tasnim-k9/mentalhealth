@@ -36,21 +36,34 @@ const Login = () => {
     }
 
     try {
-      // Use ACTUAL form data for login
-      await login({
-        _id: Date.now().toString(), // Generate unique ID
-        username: formData.email.split('@')[0], // Use email prefix as username
-        email: formData.email,
-        firstName: formData.email.split('@')[0], // Use email prefix as first name
-        lastName: 'User', // Default last name
-        role: 'user',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'
+      // Make API call to backend
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001/api'}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
       });
-      
-      // Redirect to intended page
-      navigate(from, { replace: true });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store the token
+        localStorage.setItem('token', data.token);
+        
+        // Use actual user data from backend
+        await login(data.user);
+        
+        // Redirect to intended page
+        navigate(from, { replace: true });
+      } else {
+        setError(data.message || 'Login failed');
+      }
     } catch (err) {
-      setError('Failed to log in. Please check your credentials and try again.');
+      setError('Failed to connect to server. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -21,17 +21,17 @@ const HeroSection = () => {
                 <div className="rounded-md shadow">
                   <Link
                     to="/services"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-lavender-600 hover:bg-lavender-700 md:py-4 md:text-lg md:px-10 transition-colors duration-200"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-lavender-600 hover:bg-lavender-700 md:py-4 md:text-lg md:px-10 transition-all duration-200 transform hover:scale-105 hover:shadow-lg"
                   >
-                    Get Started
+                    🚀 Get Started
                   </Link>
                 </div>
                 <div className="mt-3 sm:mt-0 sm:ml-3">
                   <Link
                     to="/about"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-lavender-700 dark:text-lavender-300 bg-lavender-100 dark:bg-lavender-900 hover:bg-lavender-200 dark:hover:bg-lavender-800 md:py-4 md:text-lg md:px-10 transition-colors duration-200"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-lavender-700 dark:text-lavender-300 bg-lavender-100 dark:bg-lavender-900 hover:bg-lavender-200 dark:hover:bg-lavender-800 md:py-4 md:text-lg md:px-10 transition-all duration-200 transform hover:scale-105"
                   >
-                    Learn More
+                    📚 Learn More
                   </Link>
                 </div>
               </div>

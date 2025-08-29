@@ -42,12 +42,6 @@ const Services = () => {
       link: '/forum'
     },
     {
-      name: 'Therapist Appointments',
-      description: 'Schedule sessions with licensed therapists at your convenience.',
-      icon: CalendarIcon,
-      link: '/profile?tab=appointments'
-    },
-    {
       name: 'Mood Tracking',
       description: 'Visualize your emotional patterns with our mood tracking dashboard.',
       icon: ChartBarIcon,

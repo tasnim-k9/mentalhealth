@@ -2,26 +2,6 @@
 import React from 'react';
 
 const About = () => {
-  const team = [
-    {
-      name: 'Dr. Sarah Johnson',
-      role: 'Clinical Psychologist',
-      image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      bio: 'Specialized in cognitive behavioral therapy with over 15 years of experience.'
-    },
-    {
-      name: 'Michael Chen',
-      role: 'Licensed Therapist',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      bio: 'Focuses on mindfulness-based stress reduction and family therapy.'
-    },
-    {
-      name: 'Emma Rodriguez',
-      role: 'Mental Health Counselor',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      bio: 'Passionate about helping young adults navigate life transitions and anxiety.'
-    }
-  ];
 
   const values = [
     {
@@ -60,7 +40,7 @@ const About = () => {
           <div>
             <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-6 transition-colors duration-300">Our Story</h2>
             <p className="text-lg text-gray-500 dark:text-gray-300 mb-4 transition-colors duration-300">
-              MindfulSpace was founded in 2020 by a team of mental health professionals and technology experts who saw the growing need for accessible mental health resources.
+              MindfulSpace is a digital platform designed to provide accessible mental health resources for everyone seeking support on their wellness journey.
             </p>
             <p className="text-lg text-gray-500 dark:text-gray-300 mb-4 transition-colors duration-300">
               We recognized that while many people struggle with mental health challenges, traditional support systems often have barriers like cost, availability, and stigma that prevent people from getting help.
@@ -71,8 +51,8 @@ const About = () => {
           </div>
           <div>
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="Team collaboration"
+              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="Mental wellness journey"
               className="rounded-lg shadow-lg"
             />
           </div>
@@ -95,22 +75,16 @@ const About = () => {
         </div>
       </div>
 
-      {/* Team Section */}
-      <div>
-        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12 transition-colors duration-300">Our Team</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {team.map((person) => (
-            <div key={person.name} className="text-center">
-              <img
-                className="mx-auto h-40 w-40 rounded-full object-cover mb-4"
-                src={person.image}
-                alt={person.name}
-              />
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1 transition-colors duration-300">{person.name}</h3>
-              <p className="text-lavender-600 dark:text-lavender-400 mb-3 transition-colors duration-300">{person.role}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-300 transition-colors duration-300">{person.bio}</p>
-            </div>
-          ))}
+      {/* Mission Section */}
+      <div className="text-center">
+        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-12 transition-colors duration-300">Our Mission</h2>
+        <div className="max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 transition-colors duration-300">
+            At MindfulSpace, we believe everyone deserves access to quality mental health support. Our platform provides tools and resources to help you on your journey toward better mental wellness.
+          </p>
+          <p className="text-lg text-gray-600 dark:text-gray-300 transition-colors duration-300">
+            Whether you're seeking daily support, mood tracking, journaling tools, or community connection, we're here to support you every step of the way.
+          </p>
         </div>
       </div>
     </div>
