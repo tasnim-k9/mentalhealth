@@ -1,5 +1,5 @@
 // File: server/controllers/authController.js
-const User = require('../models/User');
+const userStore = require('../storage/userStore');
 const generateToken = require('../utils/generateToken');
 const { validationResult } = require('express-validator');
 
@@ -20,20 +20,8 @@ const register = async (req, res) => {
 
     const { username, email, password, firstName, lastName } = req.body;
 
-    // Check if user already exists
-    const userExists = await User.findOne({ 
-      $or: [{ email }, { username }] 
-    });
-
-    if (userExists) {
-      return res.status(400).json({
-        success: false,
-        message: 'User already exists with this email or username'
-      });
-    }
-
-    // Create user
-    const user = await User.create({
+    // Create user using file storage
+    const user = await userStore.createUser({
       username,
       email,
       password,
@@ -75,28 +63,27 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     // Check if user exists
-    const user = await User.findOne({ email }).select('+password');
+    const user = await userStore.findUserByEmail(email);
     
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: 'Invalid credentials - User not found. Please sign up first.'
       });
     }
 
     // Check password
-    const isPasswordMatch = await user.comparePassword(password);
+    const isPasswordMatch = await userStore.comparePassword(password, user.password);
     
     if (!isPasswordMatch) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials'
+        message: 'Invalid credentials - Incorrect password.'
       });
     }
 
     // Update last login
-    user.lastLogin = new Date();
-    await user.save();
+    await userStore.updateUserLogin(user._id);
 
     const token = generateToken(user._id);
     
@@ -128,7 +115,14 @@ const login = async (req, res) => {
 // @access  Private
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await userStore.findUserById(req.user._id);
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
     
     res.json({
       success: true,
