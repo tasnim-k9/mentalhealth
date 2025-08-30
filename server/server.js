@@ -1,9 +1,9 @@
-// File: server/server.js
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const connectDB = require('./config/database');
 
 // Load env vars
@@ -27,20 +27,36 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS
+// ✅ KEEP ONLY THIS CORS CONFIGURATION (REMOVE THE OTHER ONE)
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
+  origin: 'http://localhost:5000', // Your React frontend is on port 5000
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // Body parser middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Debug: Check if routes are loading
+console.log('Loading routes...');
+try {
+  console.log('Auth routes path:', require.resolve('./routes/auth'));
+  console.log('Auth routes file exists!');
+} catch (error) {
+  console.error('Auth routes file not found:', error.message);
+}
+
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/chatbot', require('./routes/chatbot'));
 app.use('/api/journals', require('./routes/journals'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/forum', require('./routes/forum'));
 // Add other routes here: blogs, forum, appointments, etc.
 
 // Health check endpoint
@@ -70,7 +86,7 @@ app.use('*', (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);

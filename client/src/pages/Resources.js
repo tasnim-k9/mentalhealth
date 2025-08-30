@@ -7,62 +7,126 @@ const Resources = () => {
       title: 'Crisis Resources',
       resources: [
         {
-          name: 'National Suicide Prevention Lifeline',
-          description: '24/7 free and confidential support for people in distress',
-          phone: '1-800-273-8255',
-          link: 'https://suicidepreventionlifeline.org'
+          name: 'Vandrevala Foundation Helpline',
+          description: '24/7 mental health support and crisis intervention',
+          phone: '1860 2662 345 / 1800 2333 330',
+          link: 'https://www.vandrevalafoundation.com'
         },
         {
-          name: 'Crisis Text Line',
-          description: 'Text with a trained crisis counselor',
-          phone: 'Text HOME to 741741',
-          link: 'https://www.crisistextline.org'
+          name: 'iCall Psychosocial Helpline',
+          description: 'Telephone and email-based counseling service',
+          phone: '9152987821',
+          link: 'https://icallhelpline.org'
         },
         {
-          name: 'SAMHSA Treatment Referral Hotline',
-          description: 'General information on mental health and treatment options',
-          phone: '1-877-726-4727',
-          link: 'https://www.samhsa.gov/find-help/national-helpline'
+          name: 'SNEHA Suicide Prevention Helpline',
+          description: '24/7 support for people in emotional distress',
+          phone: '044-24640050 (24/7)',
+          link: 'https://snehamumbai.org'
+        },
+        {
+          name: 'Aasra Suicide Prevention Helpline',
+          description: '24/7 confidential emotional support',
+          phone: '9820466726',
+          link: 'http://www.aasra.info'
         }
       ]
     },
     {
-      title: 'Self-Help Resources',
+      title: 'Government Helplines',
       resources: [
         {
-          name: 'Mental Health America',
-          description: 'Resources and screening tools for mental health conditions',
-          link: 'https://www.mhanational.org'
+          name: 'Ministry of Health Mental Health Helpline',
+          description: 'Government mental health support service',
+          phone: '1800-599-0019',
+          link: 'https://www.mohfw.gov.in'
         },
         {
-          name: 'Anxiety and Depression Association of America',
-          description: 'Information and resources for anxiety and depression',
-          link: 'https://adaa.org'
+          name: 'NIMHANS Tele MANAS',
+          description: 'National tele-mental health program',
+          phone: '14416 / 1-800-891-4416',
+          link: 'https://nimhans.ac.in'
         },
         {
-          name: 'National Alliance on Mental Illness',
-          description: 'Education, support, and advocacy for mental health',
-          link: 'https://www.nami.org'
+          name: 'KIRAN Mental Health Rehabilitation',
+          description: '24/7 mental health support helpline',
+          phone: '1800-599-0019',
+          link: 'https://kiranhelpline.in'
         }
       ]
     },
     {
-      title: 'Therapy & Support',
+      title: 'Therapy & Counseling',
       resources: [
         {
-          name: 'Psychology Today Therapist Directory',
-          description: 'Find licensed therapists in your area',
-          link: 'https://www.psychologytoday.com/us/therapists'
+          name: 'Mind.fit',
+          description: 'Online therapy with licensed Indian psychologists',
+          link: 'https://mind.fit'
         },
         {
-          name: 'BetterHelp Online Therapy',
-          description: 'Online counseling and therapy services',
-          link: 'https://www.betterhelp.com'
+          name: 'YourDOST',
+          description: 'Online counseling and emotional wellness platform',
+          link: 'https://yourdost.com'
         },
         {
-          name: '7 Cups of Tea',
-          description: 'Free emotional support and counseling',
-          link: 'https://www.7cups.com'
+          name: 'InnerHour',
+          description: 'Therapy and self-care mental health app',
+          link: 'https://theinnerhour.com'
+        },
+        {
+          name: 'Wysa',
+          description: 'AI-powered mental health support app',
+          link: 'https://www.wysa.io'
+        }
+      ]
+    },
+    {
+      title: 'Mental Health Organizations',
+      resources: [
+        {
+          name: 'The Live Love Laugh Foundation',
+          description: 'Mental health awareness and education',
+          link: 'https://www.thelivelovelaughfoundation.org'
+        },
+        {
+          name: 'Indian Mental Health Foundation',
+          description: 'Mental health advocacy and support',
+          link: 'https://indianmentalhealthfoundation.org'
+        },
+        {
+          name: 'Mpower Mental Health Initiative',
+          description: 'Mental health awareness and treatment',
+          link: 'https://mpowerminds.com'
+        },
+        {
+          name: 'Sangath',
+          description: 'Mental health research and treatment organization',
+          link: 'https://sangath.in'
+        }
+      ]
+    },
+    {
+      title: 'Specialized Support',
+      resources: [
+        {
+          name: 'Parivarthan Counseling Center',
+          description: 'Professional counseling and therapy services',
+          link: 'https://parivarthan.org'
+        },
+        {
+          name: 'Heart It Out',
+          description: 'Mental wellness services across India',
+          link: 'https://heartitout.in'
+        },
+        {
+          name: '1to1help',
+          description: 'Employee mental health and wellness programs',
+          link: 'https://www.1to1help.net'
+        },
+        {
+          name: 'Manas Foundation',
+          description: 'Mental health services and advocacy',
+          link: 'https://manas.org.in'
         }
       ]
     }
@@ -72,10 +136,10 @@ const Resources = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-16">
         <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl transition-colors duration-300">
-          Mental Health Resources
+          Mental Health Resources - India
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-300 transition-colors duration-300">
-          Helpful resources and support services for mental wellness
+          Helpful resources and support services for mental wellness in India
         </p>
       </div>
 
@@ -114,7 +178,7 @@ const Resources = () => {
 
       <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-8 transition-colors duration-300">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-300">
-          Emergency Help
+          Emergency Help - India
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6 transition-colors duration-300">
           If you're in crisis or experiencing thoughts of suicide, please reach out immediately to these resources:
@@ -122,18 +186,36 @@ const Resources = () => {
         <div className="grid gap-4 md:grid-cols-2">
           <div className="bg-white dark:bg-gray-800 p-4 rounded-lg transition-colors duration-300">
             <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2 transition-colors duration-300">
-              National Suicide Prevention Lifeline
+              Vandrevala Foundation Helpline
             </h3>
             <p className="text-blue-600 dark:text-blue-400 font-bold text-xl transition-colors duration-300">
-              1-800-273-8255
+              1860 2662 345 / 1800 2333 330
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-4 rounded-lg transition-colors duration-300">
             <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2 transition-colors duration-300">
-              Crisis Text Line
+              iCall Psychosocial Helpline
             </h3>
             <p className="text-blue-600 dark:text-blue-400 font-bold text-xl transition-colors duration-300">
-              Text HOME to 741741
+              9152987821
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg transition-colors duration-300">
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2 transition-colors duration-300">
+              National Tele Mental Health Program
+            </h3>
+            <p className="text-blue-600 dark:text-blue-400 font-bold text-xl transition-colors duration-300">
+              14416 / 1-800-891-4416
+            </p>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg transition-colors duration-300">
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2 transition-colors duration-300">
+              Aasra Suicide Prevention
+            </h3>
+            <p className="text-blue-600 dark:text-blue-400 font-bold text-xl transition-colors duration-300">
+              9820466726
             </p>
           </div>
         </div>

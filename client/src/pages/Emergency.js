@@ -4,46 +4,67 @@ import React from 'react';
 const Emergency = () => {
   const emergencyResources = [
     {
-      name: 'National Suicide Prevention Lifeline',
-      number: '1-800-273-8255',
-      description: '24/7 free and confidential support for people in distress',
+      name: 'Vandrevala Foundation Helpline',
+      number: '1860 2662 345 / 1800 2333 330',
+      description: '24/7 mental health support and crisis intervention',
       available: '24/7',
-      link: 'https://suicidepreventionlifeline.org'
+      link: 'https://www.vandrevalafoundation.com'
     },
     {
-      name: 'Crisis Text Line',
-      number: 'Text HOME to 741741',
-      description: 'Free, 24/7 crisis support via text message',
-      available: '24/7',
-      link: 'https://www.crisistextline.org'
+      name: 'iCall Psychosocial Helpline',
+      number: '9152987821',
+      description: 'Telephone and email-based counseling service',
+      available: 'Mon-Sat, 8AM-10PM',
+      link: 'https://icallhelpline.org'
     },
     {
-      name: 'SAMHSA Treatment Referral Hotline',
-      number: '1-877-726-4727',
-      description: 'General information on mental health and treatment options',
+      name: 'SNEHA Suicide Prevention Helpline',
+      number: '044-24640050',
+      description: '24/7 support for people in emotional distress',
       available: '24/7',
-      link: 'https://www.samhsa.gov/find-help/national-helpline'
+      link: 'https://snehamumbai.org'
     },
     {
-      name: 'National Domestic Violence Hotline',
-      number: '1-800-799-7233',
-      description: 'Support for domestic violence situations',
+      name: 'Aasra Suicide Prevention Helpline',
+      number: '9820466726',
+      description: '24/7 confidential emotional support',
       available: '24/7',
-      link: 'https://www.thehotline.org'
+      link: 'http://www.aasra.info'
     },
     {
-      name: 'Trevor Project (LGBTQ Crisis Support)',
-      number: '1-866-488-7386',
-      description: 'Crisis intervention and suicide prevention for LGBTQ youth',
+      name: 'National Tele Mental Health Program (Tele MANAS)',
+      number: '14416 / 1-800-891-4416',
+      description: 'Government mental health support service',
       available: '24/7',
-      link: 'https://www.thetrevorproject.org'
+      link: 'https://nimhans.ac.in'
     },
     {
-      name: 'Veterans Crisis Line',
-      number: '1-800-273-8255 (Press 1)',
-      description: 'Support for veterans in crisis',
+      name: 'KIRAN Mental Health Rehabilitation',
+      number: '1800-599-0019',
+      description: '24/7 mental health support helpline',
       available: '24/7',
-      link: 'https://www.veteranscrisisline.net'
+      link: 'https://kiranhelpline.in'
+    },
+    {
+      name: 'Women Helpline (All India)',
+      number: '1091 / 181',
+      description: 'Emergency support for women in distress',
+      available: '24/7',
+      link: 'https://wcd.nic.in'
+    },
+    {
+      name: 'Child Helpline',
+      number: '1098',
+      description: 'Emergency help for children in need of care and protection',
+      available: '24/7',
+      link: 'https://1098.childlineindia.org.in'
+    },
+    {
+      name: 'Police Emergency',
+      number: '100',
+      description: 'Emergency police assistance',
+      available: '24/7',
+      link: 'https://www.india.gov.in'
     }
   ];
 
@@ -70,7 +91,7 @@ const Emergency = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-16">
         <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl transition-colors duration-300">
-          Emergency Support
+          Emergency Support - India
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-300 transition-colors duration-300">
           Immediate help and resources when you need it most
@@ -90,7 +111,7 @@ const Emergency = () => {
               If you're in immediate danger
             </h3>
             <div className="mt-2 text-red-700 dark:text-red-300 transition-colors duration-300">
-              <p>Please call 911 or go to your nearest emergency room.</p>
+              <p>Please call 112 (Emergency) or 100 (Police) or go to your nearest emergency room.</p>
             </div>
           </div>
         </div>
@@ -99,7 +120,7 @@ const Emergency = () => {
       {/* Emergency Resources */}
       <div className="mb-16">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-300">
-          Crisis Hotlines
+          Emergency Helplines - India
         </h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {emergencyResources.map((resource) => (

@@ -1,73 +1,129 @@
-// File: server/routes/auth.js
 const express = require('express');
-const { body } = require('express-validator');
-const {
-  register,
-  login,
-  getMe,
-  updateProfile,
-  changePassword
-} = require('../controllers/authController');
-const { protect } = require('../middleware/auth');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 const router = express.Router();
 
-// Validation rules
-const registerValidation = [
-  body('username')
-    .isLength({ min: 3, max: 30 })
-    .withMessage('Username must be between 3 and 30 characters')
-    .matches(/^[a-zA-Z0-9_]+$/)
-    .withMessage('Username can only contain letters, numbers, and underscores'),
-  body('email')
-    .isEmail()
-    .withMessage('Please enter a valid email address'),
-  body('password')
-    .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters long')
-];
+// Test endpoint
+router.get('/test', (req, res) => {
+  res.json({ success: true, message: 'Auth endpoint is working!' });
+});
 
-const loginValidation = [
-  body('email')
-    .isEmail()
-    .withMessage('Please enter a valid email address'),
-  body('password')
-    .exists()
-    .withMessage('Password is required')
-];
+router.post('/test', (req, res) => {
+  console.log('Received data:', req.body);
+  res.json({ success: true, message: 'POST received', data: req.body });
+});
 
-const updateProfileValidation = [
-  body('firstName')
-    .optional()
-    .trim()
-    .isLength({ max: 50 })
-    .withMessage('First name must be less than 50 characters'),
-  body('lastName')
-    .optional()
-    .trim()
-    .isLength({ max: 50 })
-    .withMessage('Last name must be less than 50 characters'),
-  body('bio')
-    .optional()
-    .trim()
-    .isLength({ max: 500 })
-    .withMessage('Bio must be less than 500 characters')
-];
+// Registration endpoint
+router.post('/register', async (req, res) => {
+  try {
+    const { firstName, lastName, username, email, password } = req.body;
 
-const changePasswordValidation = [
-  body('currentPassword')
-    .exists()
-    .withMessage('Current password is required'),
-  body('newPassword')
-    .isLength({ min: 6 })
-    .withMessage('New password must be at least 6 characters long')
-];
+    // Check if user already exists
+    const existingUser = await User.findOne({ 
+      $or: [{ email }, { username }] 
+    });
+    
+    if (existingUser) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'User already exists with this email or username' 
+      });
+    }
 
-// Routes
-router.post('/register', registerValidation, register);
-router.post('/login', loginValidation, login);
-router.get('/me', protect, getMe);
-router.put('/profile', protect, updateProfileValidation, updateProfile);
-router.put('/change-password', protect, changePasswordValidation, changePassword);
+    // Hash password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create new user
+    const newUser = new User({
+      firstName,
+      lastName,
+      username,
+      email,
+      password: hashedPassword
+    });
+
+    await newUser.save();
+
+    // Generate JWT token - FIXED
+    const token = jwt.sign(
+      { id: newUser._id }, // ← Use 'id' and newUser._id
+      process.env.JWT_SECRET || 'your_jwt_secret',
+      { expiresIn: '24h' }
+    );
+
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      token,
+      user: {
+        id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        username: newUser.username,
+        email: newUser.email
+      }
+    });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Server error during registration' 
+    });
+  }
+});
+
+// Login endpoint
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Invalid email or password' 
+      });
+    }
+
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Invalid email or password' 
+      });
+    }
+
+    // Generate JWT token - FIXED
+    const token = jwt.sign(
+      { id: user._id }, // ← Changed from userId to id
+      process.env.JWT_SECRET || 'your_jwt_secret',
+      { expiresIn: '24h' }
+    );
+
+    res.json({
+      success: true,
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email
+      }
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Server error during login' 
+    });
+  }
+});
 
 module.exports = router;

@@ -1,4 +1,3 @@
-// File: client/src/pages/Journal.js
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -23,21 +22,11 @@ const Journal = () => {
       
       if (response.ok) {
         const data = await response.json();
-        setEntries(data.journals || []);
+        setEntries(data.data || []); // Changed from data.journals to data.data
       }
     } catch (error) {
       console.error('Error loading entries:', error);
-      // Set some sample data if backend fails
-      setEntries([
-        {
-          _id: '1',
-          date: new Date().toISOString().split('T')[0],
-          mood: 'happy',
-          title: 'Welcome to your journal!',
-          content: 'Start tracking your thoughts and moods here. This is a sample entry to get you started.',
-          tags: ['welcome']
-        }
-      ]);
+      setEntries([]); // Set empty array instead of sample data
     } finally {
       setLoading(false);
     }
@@ -63,24 +52,19 @@ const Journal = () => {
     { value: 'excited', label: '🤩 Excited', color: 'bg-pink-100 text-pink-800' }
   ];
 
-  const moodData = [
-    { date: '2023-11-05', mood: 4 },
-    { date: '2023-11-06', mood: 3 },
-    { date: '2023-11-07', mood: 2 },
-    { date: '2023-11-08', mood: 2 },
-    { date: '2023-11-09', mood: 3 },
-    { date: '2023-11-10', mood: 4 }
-  ];
-
-  const moodValue = {
-    happy: 4,
-    excited: 5,
-    neutral: 3,
-    tired: 2,
-    sad: 2,
-    anxious: 2,
-    angry: 1
-  };
+  // Generate mood chart data from user's actual entries
+  const moodData = entries.map(entry => ({
+    date: new Date(entry.createdAt || entry.date).toLocaleDateString(),
+    mood: {
+      happy: 5,
+      excited: 4,
+      neutral: 3,
+      tired: 2,
+      sad: 2,
+      anxious: 2,
+      angry: 1
+    }[entry.mood] || 3 // Default to neutral if mood not found
+  })).reverse(); // Show oldest to newest
 
   const handleAddTag = () => {
     if (currentTag.trim() && !newEntry.tags.includes(currentTag.trim())) {
@@ -122,7 +106,7 @@ const Journal = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setEntries([data.journal, ...entries]);
+        setEntries([data.data, ...entries]); // Changed from data.journal to data.data
         setNewEntry({
           date: new Date().toISOString().split('T')[0],
           mood: 'neutral',
@@ -130,6 +114,8 @@ const Journal = () => {
           content: '',
           tags: []
         });
+        // Reload entries to refresh the chart
+        loadEntries();
       } else {
         alert('Failed to save entry. Please try again.');
       }
@@ -287,24 +273,30 @@ const Journal = () => {
             <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4 transition-colors duration-300">
               Mood Tracker
             </h2>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={moodData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis domain={[0, 5]} />
-                  <Tooltip />
-                  <Line 
-                    type="monotone" 
-                    dataKey="mood" 
-                    stroke="#8b5cf6" 
-                    strokeWidth={2}
-                    dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
-                    activeDot={{ r: 6, fill: '#7c3aed' }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+            {moodData.length > 0 ? (
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={moodData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis domain={[0, 5]} />
+                    <Tooltip />
+                    <Line 
+                      type="monotone" 
+                      dataKey="mood" 
+                      stroke="#8b5cf6" 
+                      strokeWidth={2}
+                      dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6, fill: '#7c3aed' }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <p>No mood data yet. Start journaling to see your mood chart!</p>
+              </div>
+            )}
           </div>
 
           {/* Journal Entries List */}
@@ -327,47 +319,49 @@ const Journal = () => {
                   </div>
                 ) : (
                   entries.map((entry, index) => (
-                    <div 
-                      key={entry._id || entry.id} 
-                      className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
-                      style={{
-                        animationDelay: `${index * 100}ms`,
-                        animation: 'fadeInUp 0.5s ease-out forwards'
-                      }}
-                    >
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center">
-                          <span className="text-2xl mr-3 animate-pulse">
-                            {moodOptions.find(m => m.value === entry.mood)?.label.split(' ')[0]}
-                          </span>
-                          <h3 className="text-lg font-medium text-gray-900 dark:text-white transition-colors duration-300">
-                            {entry.title}
-                          </h3>
-                        </div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
-                          {new Date(entry.date).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4 transition-colors duration-300 leading-relaxed">
-                        {entry.content}
-                      </p>
-                      {entry.tags && entry.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                          {entry.tags.map((tag, tagIndex) => (
-                            <span
-                              key={tag}
-                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-lavender-100 dark:bg-lavender-900/30 text-lavender-800 dark:text-lavender-200 transition-all duration-300 hover:scale-105"
-                              style={{
-                                animationDelay: `${(index * 100) + (tagIndex * 50)}ms`,
-                                animation: 'fadeIn 0.3s ease-out forwards'
-                              }}
-                            >
-                              #{tag}
+                    entry && ( // ← NULL CHECK ADDED HERE
+                      <div 
+                        key={entry._id || entry.id} 
+                        className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+                        style={{
+                          animationDelay: `${index * 100}ms`,
+                          animation: 'fadeInUp 0.5s ease-out forwards'
+                        }}
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center">
+                            <span className="text-2xl mr-3 animate-pulse">
+                              {entry && moodOptions.find(m => m.value === entry.mood)?.label.split(' ')[0]}
                             </span>
-                          ))}
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-white transition-colors duration-300">
+                              {entry.title}
+                            </h3>
+                          </div>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
+                            {new Date(entry.date || entry.createdAt).toLocaleDateString()}
+                          </span>
                         </div>
-                      )}
-                    </div>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4 transition-colors duration-300 leading-relaxed">
+                          {entry.content}
+                        </p>
+                        {entry.tags && entry.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {entry.tags.map((tag, tagIndex) => (
+                              <span
+                                key={tag}
+                                className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-lavender-100 dark:bg-lavender-900/30 text-lavender-800 dark:text-lavender-200 transition-all duration-300 hover:scale-105"
+                                style={{
+                                  animationDelay: `${(index * 100) + (tagIndex * 50)}ms`,
+                                  animation: 'fadeIn 0.3s ease-out forwards'
+                                }}
+                              >
+                                #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) // ← NULL CHECK CLOSED HERE
                   ))
                 )}
               </div>
